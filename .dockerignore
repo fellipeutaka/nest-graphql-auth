@@ -1,0 +1,16 @@
+node_modules
+dist
+
+# Docs
+README.md
+.env.example
+
+# ESLint
+.eslintignore
+.eslintrc.json
+
+# Prettier
+.prettierrc.json
+
+# Git
+.gitignore

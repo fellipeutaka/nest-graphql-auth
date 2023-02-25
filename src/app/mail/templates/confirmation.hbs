@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Confirm your email</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 0;
+        border-spacing: 0;
+      }
+
+      td {
+        padding: 0;
+        text-align: center;
+      }
+
+      img {
+        width: 256px;
+        height: auto;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      a {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 256px;
+        background-color: #ff0b45;
+        color: white;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1.6px;
+      }
+    </style>
+  </head>
+  <body>
+    <table role="presentation">
+      <tr>
+        <td align="center">
+          <img
+            src="https://i.ibb.co/RPQkF5m/undraw-Mailbox-re-dvds.png"
+            alt="Mailbox ilustration"
+            width="256px"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <h1>Verify your email address</h1>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <p>Hello {{ fullName }}</p>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <p>
+            Please click on the button bellow to confirm your email address and
+            activate your account.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <a href="https://myapp.com/confirm-email?token={{ emailToken }}">
+            Confirm email!
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <p>
+            If you received this in error, simply ignore this email and do not
+            click on the button.
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

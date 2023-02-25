@@ -12,7 +12,6 @@ import { UserModule } from "./user/module/user.module";
       autoSchemaFile: true,
       sortSchema: true,
     }),
-
     AuthModule,
     UserModule,
   ],

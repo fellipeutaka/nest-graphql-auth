@@ -39,13 +39,13 @@ export class AuthService {
       password: passwordHash,
     });
 
-    await this.sendConfirmationEmailLink({
+    const { hasEmailSentSuccessfully } = await this.sendConfirmationEmailLink({
       userId: user.id,
       email: user.email,
       fullName: user.fullName,
     });
 
-    return { hasCreatedSuccessfully: true };
+    return { hasCreatedSuccessfully: true, hasEmailSentSuccessfully };
   }
 
   async signIn({ email, username, password }: SignInProps) {
@@ -133,15 +133,21 @@ export class AuthService {
       }
     );
 
-    await this.mailProducer.send({
-      to: email,
-      subject: "🎉 Welcome to Nest GraphQL Auth!",
-      template: "confirmation",
-      context: {
-        emailToken,
-        fullName,
-      },
-    });
+    try {
+      await this.mailProducer.send({
+        to: email,
+        subject: "🎉 Welcome to Nest GraphQL Auth!",
+        template: "confirmation",
+        context: {
+          emailToken,
+          fullName,
+        },
+      });
+      return { hasEmailSentSuccessfully: true };
+    } catch (err) {
+      console.error(err);
+      return { hasEmailSentSuccessfully: false };
+    }
   }
 
   async getTokens(userId: string) {

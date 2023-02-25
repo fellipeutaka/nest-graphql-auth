@@ -10,16 +10,37 @@ import { MailService } from "./mail.service";
 
 @Module({
   imports: [
-    BullModule.forRoot(MailConfigKey, {
+    BullModule.forRoot(MailConfigKey, {}),
+    BullModule.registerQueue({
+      configKey: MailConfigKey,
+      name: MailQueueName,
       redis: {
         host: process.env.MAIL_REDIS_HOST,
         port: Number(process.env.MAIL_REDIS_PORT),
         password: process.env.MAIL_REDIS_PASSWORD,
+        maxRetriesPerRequest: 1,
       },
-    }),
-    BullModule.registerQueue({
-      configKey: MailConfigKey,
-      name: MailQueueName,
+      defaultJobOptions: {
+        attempts: 3,
+        backoff: {
+          type: "exponential",
+          delay: 1 * 60 * 1000, // 1 minute
+        },
+        timeout: 1000,
+        removeOnFail: {
+          age: 5 * 60 * 1000, // 5 minutes
+        },
+      },
+      limiter: {
+        max: 100, // 100 jobs
+        duration: 1000, // 1 second
+      },
+      settings: {
+        lockDuration: 30 * 1000, // 30 seconds
+        lockRenewTime: 15 * 1000, // 15 seconds
+        stalledInterval: 30 * 1000, // 30 seconds
+        maxStalledCount: 3,
+      },
     }),
     MailerModule.forRoot({
       transport: {

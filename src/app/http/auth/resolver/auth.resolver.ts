@@ -6,6 +6,7 @@ import { CurrentUser } from "@app/decorators/currentUser";
 import { SignInInput } from "../dtos/inputs/sign-in-input";
 import { SignUpInput } from "../dtos/inputs/sign-up-input";
 import { SignInModel } from "../dtos/models/sign-in-model";
+import { SignUpModel } from "../dtos/models/sign-up-model";
 import { TokensModel } from "../dtos/models/tokens-model";
 import { AccessTokenGuard } from "../guards/accessToken.guard";
 import { RefreshTokenGuard } from "../guards/refreshToken.guard";
@@ -16,10 +17,15 @@ import { AuthService } from "../service/auth.service";
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @Mutation(() => Boolean)
+  @Mutation(() => SignUpModel)
   async signUp(@Args("data") data: SignUpInput) {
-    const { hasCreatedSuccessfully } = await this.authService.signUp(data);
-    return hasCreatedSuccessfully;
+    const { hasCreatedSuccessfully, hasEmailSentSuccessfully } =
+      await this.authService.signUp(data);
+
+    return {
+      hasCreatedSuccessfully,
+      hasEmailSentSuccessfully,
+    };
   }
 
   @Mutation(() => SignInModel)

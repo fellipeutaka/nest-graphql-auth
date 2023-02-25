@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "wait-for-it.sh db:5432 && pnpm prisma migrate deploy && pnpm start:dev"
+    command: bash -c "wait-for-it.sh db:5432 && pnpm prisma:deploy && pnpm start:dev"
     ports:
       - "3333:3333"
     env_file:

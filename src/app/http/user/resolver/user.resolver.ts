@@ -2,6 +2,7 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 
 import { CurrentUser } from "@app/decorators/currentUser";
+import { hashData } from "@app/utils/hashData";
 
 import { AccessTokenGuard } from "../../auth/guards/accessToken.guard";
 import type { JwtPayload } from "../../auth/interfaces/auth.interface";
@@ -39,7 +40,12 @@ export class UsersResolver {
     @CurrentUser() payload: JwtPayload,
     @Args("data") { newPassword }: ChangePasswordInput
   ) {
-    await this.userService.changePassword({ userId: payload.sub, newPassword });
+    const newPasswordHashed = await hashData(newPassword);
+    await this.userService.changePassword({
+      userId: payload.sub,
+      newPassword,
+      newPasswordHashed,
+    });
     return true;
   }
 }

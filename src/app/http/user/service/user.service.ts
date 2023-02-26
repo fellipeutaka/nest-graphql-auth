@@ -4,7 +4,6 @@ import { compare } from "bcrypt";
 import { randomUUID } from "node:crypto";
 
 import { PrismaService } from "@app/app/database/prisma.service";
-import { hashData } from "@app/utils/hashData";
 
 import { ChangePasswordProps } from "../../auth/interfaces/auth.interface";
 import { CreateUserProps } from "../interfaces/user.interface";
@@ -70,7 +69,11 @@ export class UserService {
     });
   }
 
-  async changePassword({ userId, newPassword }: ChangePasswordProps) {
+  async changePassword({
+    userId,
+    newPassword,
+    newPasswordHashed,
+  }: ChangePasswordProps) {
     const user = await this.findById(userId);
 
     if (!user) {
@@ -82,8 +85,6 @@ export class UserService {
     if (isPasswordEqual) {
       throw new BadRequestException("Password are the same");
     }
-
-    const newPasswordHashed = await hashData(newPassword);
 
     await this.updateById(userId, {
       password: newPasswordHashed,

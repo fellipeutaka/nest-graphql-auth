@@ -20,6 +20,7 @@ export type SendConfirmationEmailLinkProps = {
 export type ChangePasswordProps = {
   userId: string;
   newPassword: string;
+  newPasswordHashed: string;
 };
 
 export type JWTEmailPayload = {
